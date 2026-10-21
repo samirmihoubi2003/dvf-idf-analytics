@@ -1,4 +1,4 @@
-# DVF Île-de-France — Pipeline ETL & Dashboard Immobilier
+# DVF Île-de-France  Pipeline ETL & Dashboard Immobilier
 
 **Python • PostgreSQL • Docker • GitHub Actions • Power BI / DAX**
 

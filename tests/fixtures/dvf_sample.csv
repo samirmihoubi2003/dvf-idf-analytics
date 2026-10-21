@@ -1,0 +1,9 @@
+id_mutation,date_mutation,numero_disposition,nature_mutation,valeur_fonciere,code_commune,nom_commune,code_departement,type_local,surface_reelle_bati
+2025-000001,2025-01-15,000001,Vente,300000,75056,Paris,75,Appartement,50
+2025-000001,2025-01-15,000001,Vente,300000,75056,Paris,75,Dépendance,
+2025-000002,2025-02-20,000001,Vente,400000,75056,Paris,75,Maison,80
+2025-000003,2025-02-22,000001,Vente,600000,75056,Paris,75,Appartement,30
+2025-000003,2025-02-22,000001,Vente,600000,75056,Paris,75,Appartement,40
+2025-000004,2025-03-05,000001,Echange,10000,75056,Paris,75,,
+2025-000005,2025-04-05,000001,Vente,100000,75056,Paris,75,Appartement,
+2025-000006,wrong-date,000001,Vente,100000,75056,Paris,75,Appartement,45

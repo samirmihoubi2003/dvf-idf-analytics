@@ -1,0 +1,40 @@
+name: ETL manuel - Base PostgreSQL externe
+
+on:
+  workflow_dispatch:
+    inputs:
+      year:
+        description: 'Année DVF (2021-2025)'
+        required: true
+        default: '2025'
+      departments:
+        description: 'Codes séparés par des espaces (ex: 75 92 93)'
+        required: true
+        default: '75'
+
+jobs:
+  load-external-db:
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: ${{ secrets.DVF_DATABASE_URL }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install .
+      - name: Vérifier les secrets
+        shell: bash
+        run: |
+          if [ -z "$DATABASE_URL" ]; then
+            echo "Secret DVF_DATABASE_URL absent. Nécessite une DB externe accessible." >&2
+            exit 1
+          fi
+      - name: Exécuter l'ETL
+        env:
+          YEAR: ${{ inputs.year }}
+          DEPARTMENTS: ${{ inputs.departments }}
+        shell: bash
+        run: |
+          read -ra DEPT_ARRAY <<< "$DEPARTMENTS"
+          python -m dvf_etl.cli --year "$YEAR" --departments "${DEPT_ARRAY[@]}" --force-download

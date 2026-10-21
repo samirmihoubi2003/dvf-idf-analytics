@@ -1,0 +1,22 @@
+# Secrets / accès
+.env
+.env.*
+!.env.example
+# Données volumineuses et exports
+data/raw/**
+!data/raw/.gitkeep
+*.pbix
+*.csv.gz
+*.zip
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+coverage.xml
+.coverage
+# Environnements
+.vscode/
+.idea/

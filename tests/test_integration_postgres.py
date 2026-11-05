@@ -18,6 +18,12 @@ def test_grain_transaction_et_calcul_prix_m2():
     from dvf_etl.load import load_file
 
     db_url = os.environ["TEST_DATABASE_URL"]
+    from psycopg.conninfo import conninfo_to_dict
+
+    db_name = conninfo_to_dict(db_url).get("dbname")
+
+    if db_name != "dvf_test":
+        raise ValueError("Securite : les tests doivent utiliser dvf_test, jamais dvf.")
     file = Path(__file__).parent / "fixtures" / "dvf_sample.csv"
     first = load_file(db_url, file, 2025, "75", sha256_file(file))
     second = load_file(db_url, file, 2025, "75", sha256_file(file))

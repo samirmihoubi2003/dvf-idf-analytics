@@ -77,8 +77,22 @@ SELECT
     valeur_fonciere,
     CASE WHEN nb_lignes_baties = 1 AND nb_autres_locaux = 0
          THEN surface_bati ELSE NULL END,
-    CASE WHEN nb_lignes_baties = 1 AND nb_autres_locaux = 0
+    -- Le prix/m2 doit etre positif apres arrondissement et la valeur non symbolique.
+    -- On conserve les ventes a 0.15/1 EUR dans fact_transaction,
+    -- mais on ne les utilise pas pour calculer le prix de marche au m2.
+    CASE WHEN eligible_prix_m2
          THEN ROUND(valeur_fonciere / NULLIF(surface_bati, 0), 2)
          ELSE NULL END,
-    nb_lignes_baties = 1 AND nb_autres_locaux = 0
-FROM agg_file;
+    eligible_prix_m2
+FROM (
+    SELECT a.*,
+           CASE
+               WHEN nb_lignes_baties = 1
+                AND nb_autres_locaux = 0
+                AND valeur_fonciere > 1
+                AND ROUND(valeur_fonciere / NULLIF(surface_bati, 0), 2) > 0
+               THEN TRUE
+               ELSE FALSE
+           END AS eligible_prix_m2
+    FROM agg_file AS a
+) AS priced;
